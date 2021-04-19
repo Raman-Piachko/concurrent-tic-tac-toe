@@ -14,7 +14,7 @@ public class PlayerImpl implements Player {
 
     @Override
     public void run() {
-        while (isNotFilledTable() && !gameIsEnded()) {
+        while (isNotFilledTable() && isNotGameEnded()) {
             synchronized (ticTacToe) {
                 if (isPossibleToMove()) {
                     Move move = strategy.computeMove(mark, ticTacToe);
@@ -25,7 +25,7 @@ public class PlayerImpl implements Player {
     }
 
     private boolean isPossibleToMove() {
-        return isNotFilledTable() && !gameIsEnded() && isMarkedCell(ticTacToe.lastMark(), mark);
+        return isNotFilledTable() && isNotGameEnded() && isMarkedCell(ticTacToe.lastMark(), mark);
     }
 
     private boolean isNotFilledTable() {
@@ -108,5 +108,9 @@ public class PlayerImpl implements Player {
 
     private boolean isMarkedCell(char markedCell, char whitespace) {
         return markedCell != whitespace;
+    }
+
+    private boolean isNotGameEnded() {
+        return !gameIsEnded();
     }
 }

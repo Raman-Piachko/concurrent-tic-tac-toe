@@ -9,14 +9,16 @@ public class TicTacToeImpl implements TicTacToe {
 
     @Override
     public void setMark(int x, int y, char mark) {
-        reentrantLock.lock();
-        if (table[x][y] != 0) {
-            throw new IllegalArgumentException(String.format("This cell %d:%d is not empty!", x, y));
+        try {
+            reentrantLock.lock();
+            if (table[x][y] != 0) {
+                throw new IllegalArgumentException(String.format("This cell %d:%d is not empty!", x, y));
+            }
+            lastMark = mark;
+            table[x][y] = mark;
+        } finally {
+            reentrantLock.unlock();
         }
-        lastMark = mark;
-        table[x][y] = mark;
-        reentrantLock.unlock();
-
     }
 
     @Override
